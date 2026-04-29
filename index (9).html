@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Puta Vibra Tour — CDMX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+    }
+
+    body {
+      background: #000;
+      color: #f0ece0;
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ── BACKGROUND ── */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      animation: drift linear infinite;
+    }
+    .orb1 {
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(255,255,255,0.12), transparent 70%);
+      top: -200px; left: -200px;
+      animation-duration: 20s;
+    }
+    .orb2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(200,200,200,0.1), transparent 70%);
+      bottom: -150px; right: -150px;
+      animation-duration: 25s;
+      animation-direction: reverse;
+    }
+    .orb3 {
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%);
+      top: 50%; left: 45%;
+      animation-duration: 16s;
+    }
+
+    @keyframes drift {
+      0%   { transform: translate(0, 0) scale(1); }
+      33%  { transform: translate(50px, -40px) scale(1.05); }
+      66%  { transform: translate(-30px, 40px) scale(0.97); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+
+    /* twinkling stars */
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; }
+      50%       { opacity: 1; }
+    }
+
+    /* scanlines */
+    .scan {
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* ── FLOATING STICKERS ── */
+    .floater {
+      position: fixed;
+      pointer-events: none;
+      z-index: 3;
+      will-change: transform;
+      transition: transform 0.1s ease-out;
+    }
+
+    .f-tl {
+      top: -40px; left: -40px;
+      width: clamp(180px, 28vw, 340px);
+      opacity: 0.3;
+      animation: floatA 10s ease-in-out infinite;
+    }
+    .f-br {
+      bottom: -40px; right: -40px;
+      width: clamp(160px, 24vw, 300px);
+      opacity: 0.25;
+      animation: floatB 12s ease-in-out infinite;
+      transform: rotate(180deg);
+    }
+    .f-tr {
+      top: 0; right: -30px;
+      width: clamp(130px, 18vw, 220px);
+      opacity: 0.2;
+      animation: floatC 14s ease-in-out infinite;
+      transform: rotate(90deg);
+    }
+    .f-bl {
+      bottom: 0; left: -20px;
+      width: clamp(130px, 18vw, 220px);
+      opacity: 0.18;
+      animation: floatA 16s ease-in-out infinite reverse;
+      transform: rotate(-90deg);
+    }
+
+    /* LPV logo top center */
+    .f-lpv {
+      top: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(90px, 12vw, 150px);
+      opacity: 0.55;
+      animation: floatB 9s ease-in-out infinite;
+    }
+
+    @keyframes floatA {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-16px) rotate(2deg); }
+    }
+    @keyframes floatB {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(12px) rotate(-1.5deg); }
+    }
+    @keyframes floatC {
+      0%, 100% { transform: rotate(90deg) translateY(0px); }
+      50%       { transform: rotate(90deg) translateY(-14px); }
+    }
+
+    /* ── MAIN CONTENT ── */
+    .wrap {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: clamp(5rem, 12vh, 9rem) 2rem clamp(3rem, 6vh, 5rem);
+    }
+
+    .main-logo {
+      width: min(660px, 88vw);
+      margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+      filter: drop-shadow(0 0 50px rgba(255,255,255,0.12));
+      animation: logoIn 0.9s ease both;
+    }
+
+    @keyframes logoIn {
+      from { opacity: 0; transform: scale(0.93) translateY(18px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .date-line {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(1.8rem, 5.5vw, 3.2rem);
+      letter-spacing: 0.14em;
+      animation: up 0.8s 0.2s ease both;
+    }
+
+    .city-line {
+      margin-top: 0.3rem;
+      font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      opacity: 0.38;
+      animation: up 0.8s 0.3s ease both;
+    }
+
+    .divider {
+      width: 50px;
+      height: 1px;
+      background: rgba(240,236,224,0.18);
+      margin: clamp(1.5rem, 3vh, 2.2rem) auto;
+      animation: up 0.8s 0.35s ease both;
+    }
+
+    /* BIG TICKET BUTTON */
+    .ticket-btn {
+      display: inline-block;
+      padding: 1.1em 3em;
+      background: #f0ece0;
+      color: #000;
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.7rem, 2vw, 0.9rem);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 2px solid #f0ece0;
+      transition: background 0.22s, color 0.22s, box-shadow 0.22s, transform 0.12s;
+      animation: up 0.9s 0.45s ease both;
+    }
+
+    .ticket-btn:hover {
+      background: transparent;
+      color: #f0ece0;
+      box-shadow: 0 0 50px rgba(255,255,255,0.22), 0 0 100px rgba(255,255,255,0.07);
+      transform: scale(1.04);
+    }
+
+    .ticket-btn:active { transform: scale(0.97); }
+
+    .btn-sub {
+      margin-top: 0.85rem;
+      font-size: 0.52rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.22;
+      animation: up 0.9s 0.55s ease both;
+    }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND -->
+  <div class="bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div id="stars"></div>
+  </div>
+  <div class="scan"></div>
+
+  <!-- FLOATING BRAND ASSETS — filenames match what you upload to the repo root -->
+  <img class="floater f-tl" src="sticker2-lpv__1_.png" alt="">
+  <img class="floater f-br" src="sticker2-lpv__1_.png" alt="">
+  <img class="floater f-tr" src="sticker2-lpv__1_.png" alt="">
+  <img class="floater f-bl" src="sticker2-lpv__1_.png" alt="">
+  <img class="floater f-lpv" src="LPV-lpv.png" alt="LPV">
+
+  <!-- MAIN -->
+  <div class="wrap">
+    <img class="main-logo" src="flyerlogonewstar__1_.png" alt="La Puta Vibra Tour">
+
+    <div class="date-line">27 de Junio 2026</div>
+    <div class="city-line">Ciudad de México</div>
+
+    <div class="divider"></div>
+
+    <a
+      href="https://www.passline.com/eventos/la-pta-vibra-tour-cdmx"
+      target="_blank"
+      rel="noopener"
+      class="ticket-btn"
+    >🎟 Compra tus boletos aquí</a>
+
+    <div class="btn-sub">passline.com</div>
+  </div>
+
+  <script>
+    // stars
+    const c = document.getElementById('stars');
+    for (let i = 0; i < 90; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = 1 + Math.random() * 2;
+      s.style.cssText = `
+        left:${Math.random()*100}%;
+        top:${Math.random()*100}%;
+        width:${size}px;
+        height:${size}px;
+        animation-duration:${2 + Math.random() * 4}s;
+        animation-delay:${Math.random() * 6}s;
+      `;
+      c.appendChild(s);
+    }
+
+    // mouse parallax on floaters
+    document.addEventListener('mousemove', e => {
+      const mx = (e.clientX / innerWidth  - 0.5);
+      const my = (e.clientY / innerHeight - 0.5);
+      const floaters = [
+        { el: document.querySelector('.f-tl'),  d: 18, rot: 0   },
+        { el: document.querySelector('.f-br'),  d: 14, rot: 180 },
+        { el: document.querySelector('.f-tr'),  d: 20, rot: 90  },
+        { el: document.querySelector('.f-bl'),  d: 16, rot: -90 },
+        { el: document.querySelector('.f-lpv'), d: 8,  rot: 0   },
+      ];
+      floaters.forEach(({ el, d, rot }) => {
+        el.style.transform = `rotate(${rot}deg) translate(${mx * d}px, ${my * d}px)`;
+      });
+    });
+  </script>
+</body>
+</html>
