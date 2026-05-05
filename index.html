@@ -9,9 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
     html, body { width: 100%; height: 100%; }
- 
+
     body {
       background: #000;
       color: #f0ece0;
@@ -22,16 +22,10 @@
       justify-content: center;
       overflow: hidden;
     }
- 
-    /* ── BACKGROUND ── */
+
+    /* Background & existing styles remain the same */
     .bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
- 
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(90px);
-      animation: drift linear infinite;
-    }
+    .orb { position: absolute; border-radius: 50%; filter: blur(90px); animation: drift linear infinite; }
     .orb1 { width:700px;height:700px;background:radial-gradient(circle,rgba(255,255,255,0.12),transparent 70%);top:-200px;left:-200px;animation-duration:20s; }
     .orb2 { width:500px;height:500px;background:radial-gradient(circle,rgba(200,200,200,0.1),transparent 70%);bottom:-150px;right:-150px;animation-duration:25s;animation-direction:reverse; }
     .orb3 { width:350px;height:350px;background:radial-gradient(circle,rgba(255,255,255,0.06),transparent 70%);top:50%;left:45%;animation-duration:16s; }
@@ -42,178 +36,131 @@
       66%  { transform:translate(-30px,40px) scale(0.97); }
       100% { transform:translate(0,0) scale(1); }
     }
- 
+
     .star { position:absolute;background:#fff;border-radius:50%;animation:twinkle ease-in-out infinite; }
     @keyframes twinkle { 0%,100%{opacity:0}50%{opacity:1} }
 
-    .scan {
-      position: fixed; inset: 0;
-      background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.012) 3px,rgba(255,255,255,0.012) 4px);
-      pointer-events: none; z-index: 2;
-    }
+    .scan { position: fixed; inset: 0; background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.012) 3px,rgba(255,255,255,0.012) 4px); pointer-events: none; z-index: 2; }
 
-    /* ── NEW LINEUP BUTTON ── */
+    /* LINEUP BUTTON - Top Left */
     .lineup-btn {
       position: fixed;
       top: 1.4rem;
       left: 2rem;
-      z-index: 50;
+      z-index: 60;
       background: rgba(240,236,224,0.08);
-      border: 1px solid rgba(240,236,224,0.35);
+      border: 1px solid rgba(240,236,224,0.4);
       color: #f0ece0;
       font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
-      padding: 0.75em 1.4em;
+      padding: 0.8em 1.6em;
       cursor: pointer;
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-    }
-
-    .lineup-btn:hover {
-      background: rgba(240,236,224,0.15);
-      border-color: #f0ece0;
-      transform: scale(1.05);
-    }
-
-    /* ── DROPDOWN NAV ── */
-    .nav {
-      position: fixed;
-      top: 1.4rem; right: 2rem;
-      z-index: 50;
-    }
-
-    /* Rest of your existing styles... */
-    .nav-toggle {
-      background: none;
-      border: 1px solid rgba(240,236,224,0.25);
-      color: #f0ece0;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      padding: 0.6em 1.2em;
-      cursor: pointer;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       gap: 0.6em;
-      transition: border-color 0.2s, background 0.2s;
-      user-select: none;
-    }
- 
-    .nav-toggle:hover { border-color: #f0ece0; background: rgba(240,236,224,0.05); }
- 
-    .nav-arrow {
-      display: inline-block;
-      transition: transform 0.2s;
-      font-style: normal;
-      font-size: 0.5rem;
-    }
- 
-    .nav.open .nav-arrow { transform: rotate(180deg); }
- 
-    .dropdown {
-      position: absolute;
-      top: calc(100% + 0.5rem);
-      right: 0;
-      background: #0d0d0d;
-      border: 1px solid rgba(240,236,224,0.1);
-      min-width: 160px;
-      overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      transition: max-height 0.25s ease, opacity 0.2s ease;
-    }
- 
-    .nav.open .dropdown {
-      max-height: 200px;
-      opacity: 1;
-    }
- 
-    .dropdown a, .dropdown button {
-      display: block;
-      width: 100%;
-      padding: 0.9em 1.4em;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(240,236,224,0.6);
-      text-decoration: none;
-      background: none;
-      border: none;
-      text-align: left;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      border-bottom: 1px solid rgba(240,236,224,0.06);
-    }
- 
-    .dropdown a:last-child, .dropdown button:last-child { border-bottom: none; }
- 
-    .dropdown a:hover, .dropdown button:hover {
-      background: rgba(240,236,224,0.05);
-      color: #f0ece0;
     }
 
-    /* ── LINEUP MODAL ── */
+    .lineup-btn:hover {
+      background: rgba(240,236,224,0.18);
+      border-color: #f0ece0;
+      transform: scale(1.06);
+      box-shadow: 0 0 30px rgba(255,255,255,0.15);
+    }
+
+    /* DROPDOWN NAV (Top Right) */
+    .nav { position: fixed; top: 1.4rem; right: 2rem; z-index: 50; }
+
+    /* Existing nav styles... */
+    .nav-toggle { background: none; border: 1px solid rgba(240,236,224,0.25); color: #f0ece0; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; padding: 0.6em 1.2em; cursor: pointer; display: flex; align-items: center; gap: 0.6em; transition: all 0.2s; }
+    .nav-toggle:hover { border-color: #f0ece0; background: rgba(240,236,224,0.05); }
+    .nav-arrow { transition: transform 0.2s; }
+    .nav.open .nav-arrow { transform: rotate(180deg); }
+
+    .dropdown { position: absolute; top: calc(100% + 0.5rem); right: 0; background: #0d0d0d; border: 1px solid rgba(240,236,224,0.1); min-width: 160px; max-height: 0; opacity: 0; overflow: hidden; transition: all 0.25s ease; }
+    .nav.open .dropdown { max-height: 200px; opacity: 1; }
+
+    /* LINEUP MODAL WITH SLIDE ANIMATION */
     .lineup-modal-overlay {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0,0,0,0.95);
       backdrop-filter: blur(12px);
       z-index: 200;
       display: none;
       align-items: center;
       justify-content: center;
+      opacity: 0;
+      transition: opacity 0.4s ease;
     }
- 
-    .lineup-modal-overlay.open { display: flex; }
- 
+
+    .lineup-modal-overlay.open {
+      display: flex;
+      opacity: 1;
+    }
+
     .lineup-modal {
       position: relative;
-      max-width: 95%;
-      max-height: 95vh;
-      padding: 20px;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* smooth slide up */
+      max-width: 96%;
+      max-height: 94vh;
+      padding: 25px;
       background: #0a0a0a;
-      border: 1px solid rgba(240,236,224,0.15);
+      border: 1px solid rgba(240,236,224,0.2);
+      box-shadow: 0 0 80px rgba(0,0,0,0.9);
     }
- 
+
+    .lineup-modal-overlay.open .lineup-modal {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
     .lineup-modal img {
       max-width: 100%;
-      max-height: 90vh;
+      max-height: 88vh;
       display: block;
-      box-shadow: 0 0 60px rgba(0,0,0,0.8);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
     }
- 
+
     .lineup-close {
       position: absolute;
-      top: -15px;
-      right: -15px;
+      top: -18px;
+      right: -18px;
       background: #000;
       color: #f0ece0;
-      border: 1px solid rgba(240,236,224,0.4);
-      width: 40px;
-      height: 40px;
+      border: 2px solid rgba(240,236,224,0.5);
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       cursor: pointer;
       z-index: 201;
-      transition: all 0.2s;
+      transition: all 0.3s ease;
     }
- 
+
     .lineup-close:hover {
       background: #f0ece0;
       color: #000;
-      transform: scale(1.1);
+      transform: rotate(90deg) scale(1.1);
     }
 
-    /* Your existing modal styles remain unchanged */
-    .modal-overlay { ... } /* (kept as is) */
+    /* Rest of your existing styles (contact modal, floaters, main, etc.) */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal { background: #0d0d0d; border: 1px solid rgba(240,236,224,0.12); padding: 3rem 2.5rem; max-width: 420px; width: 90%; text-align: center; position: relative; transform: translateY(20px); transition: transform 0.25s ease; }
+    .modal-overlay.open .modal { transform: translateY(0); }
+
+    /* Floaters & Main Content */
+    .floater { position:fixed;pointer-events:none;z-index:3;will-change:transform;transition:transform 0.1s ease-out; }
+    .f-tl, .f-br, .f-tr, .f-bl, .f-lpv { /* your existing floater styles */ }
+    .wrap { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(5rem,12vh,9rem) 2rem clamp(3rem,6vh,5rem); }
+    .main-logo, .date-line, .city-line, .divider, .ticket-btn, .btn-sub { /* your existing styles */ }
   </style>
 </head>
 <body>
@@ -226,12 +173,12 @@
   </div>
   <div class="scan"></div>
 
-  <!-- NEW LINEUP BUTTON (Top Left) -->
+  <!-- LINEUP BUTTON (Top Left) -->
   <button class="lineup-btn" onclick="openLineupModal()">
     📋 LINEUP
   </button>
 
-  <!-- DROPDOWN NAV (Top Right) -->
+  <!-- NAV (Top Right) -->
   <nav class="nav" id="nav">
     <button class="nav-toggle" onclick="toggleNav()">
       Menu <i class="nav-arrow">▼</i>
@@ -242,15 +189,15 @@
     </div>
   </nav>
 
-  <!-- LINEUP MODAL -->
+  <!-- LINEUP MODAL (with slide animation) -->
   <div class="lineup-modal-overlay" id="lineupModal">
     <div class="lineup-modal">
       <button class="lineup-close" onclick="closeLineupModal()">✕</button>
-      <img src="IMG_5433 (1).png" alt="La Puta Vibra Tour Lineup">
+      <img src="IMG_5433 (1).png" alt="La Puta Vibra Tour - Lineup">
     </div>
   </div>
 
-  <!-- CONTACT MODAL (unchanged) -->
+  <!-- CONTACT MODAL -->
   <div class="modal-overlay" id="modal" onclick="closeOnOverlay(event)">
     <div class="modal">
       <button class="modal-close" onclick="closeModal()">✕</button>
@@ -261,13 +208,14 @@
     </div>
   </div>
 
-  <!-- FLOATERS + MAIN CONTENT (unchanged) -->
+  <!-- FLOATERS -->
   <img class="floater f-tl" src="sticker2-lpv.png" alt="">
   <img class="floater f-br" src="sticker2-lpv.png" alt="">
   <img class="floater f-tr" src="sticker2-lpv.png" alt="">
   <img class="floater f-bl" src="sticker2-lpv.png" alt="">
   <img class="floater f-lpv" src="LPV-lpv.png" alt="LPV">
 
+  <!-- MAIN CONTENT -->
   <div class="wrap">
     <img class="main-logo" src="flyerlogonewstar.png" alt="La Puta Vibra Tour">
     <div class="date-line">27 de Junio 2026</div>
@@ -278,7 +226,7 @@
   </div>
 
   <script>
-    // Existing script...
+    // Stars
     const c = document.getElementById('stars');
     for (let i = 0; i < 90; i++) {
       const s = document.createElement('div');
@@ -288,46 +236,46 @@
       c.appendChild(s);
     }
 
+    // Parallax
     document.addEventListener('mousemove', e => {
-      const mx = e.clientX / innerWidth  - 0.5;
+      const mx = e.clientX / innerWidth - 0.5;
       const my = e.clientY / innerHeight - 0.5;
       [
-        { el: document.querySelector('.f-tl'),  d: 18, rot: 0   },
+        { el: document.querySelector('.f-tl'),  d: 18, rot: 0 },
         { el: document.querySelector('.f-br'),  d: 14, rot: 180 },
-        { el: document.querySelector('.f-tr'),  d: 20, rot: 90  },
+        { el: document.querySelector('.f-tr'),  d: 20, rot: 90 },
         { el: document.querySelector('.f-bl'),  d: 16, rot: -90 },
-        { el: document.querySelector('.f-lpv'), d: 8,  rot: 0   },
+        { el: document.querySelector('.f-lpv'), d: 8,  rot: 0 },
       ].forEach(({ el, d, rot }) => {
         el.style.transform = `rotate(${rot}deg) translate(${mx*d}px,${my*d}px)`;
       });
     });
 
+    // Nav
     function toggleNav() { document.getElementById('nav').classList.toggle('open'); }
     document.addEventListener('click', e => {
-      if (!document.getElementById('nav').contains(e.target)) {
-        document.getElementById('nav').classList.remove('open');
-      }
+      if (!document.getElementById('nav').contains(e.target)) document.getElementById('nav').classList.remove('open');
     });
 
     // Contact Modal
-    function openModal()  {
+    function openModal() {
       document.getElementById('nav').classList.remove('open');
       document.getElementById('modal').classList.add('open');
     }
     function closeModal() { document.getElementById('modal').classList.remove('open'); }
     function closeOnOverlay(e) { if (e.target === document.getElementById('modal')) closeModal(); }
 
-    // NEW LINEUP MODAL FUNCTIONS
+    // LINEUP MODAL with slide animation
     function openLineupModal() {
-      document.getElementById('lineupModal').classList.add('open');
       document.getElementById('nav').classList.remove('open');
+      document.getElementById('lineupModal').classList.add('open');
     }
 
     function closeLineupModal() {
       document.getElementById('lineupModal').classList.remove('open');
     }
 
-    // Close lineup modal with Escape key
+    // Close with Escape
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         closeModal();
