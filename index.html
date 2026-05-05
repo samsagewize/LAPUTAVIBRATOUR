@@ -9,28 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
- 
-    html, body { width: 100%; height: 100%; }
+
+    html, body { width: 100%; height: 100%; overflow: hidden; }
 
     body {
       background: #000;
       color: #f0ece0;
       font-family: 'Space Mono', monospace;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
     }
 
-    /* ── BACKGROUND ── */
-    .bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(90px);
-      animation: drift linear infinite;
-    }
+    /* BACKGROUND */
+    .bg { position: fixed; inset: 0; z-index: 0; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(90px); animation: drift linear infinite; }
     .orb1 { width:700px;height:700px;background:radial-gradient(circle,rgba(255,255,255,0.12),transparent 70%);top:-200px;left:-200px;animation-duration:20s; }
     .orb2 { width:500px;height:500px;background:radial-gradient(circle,rgba(200,200,200,0.1),transparent 70%);bottom:-150px;right:-150px;animation-duration:25s;animation-direction:reverse; }
     .orb3 { width:350px;height:350px;background:radial-gradient(circle,rgba(255,255,255,0.06),transparent 70%);top:50%;left:45%;animation-duration:16s; }
@@ -45,335 +35,150 @@
     .star { position:absolute;background:#fff;border-radius:50%;animation:twinkle ease-in-out infinite; }
     @keyframes twinkle { 0%,100%{opacity:0}50%{opacity:1} }
 
-    .scan {
-      position: fixed; inset: 0;
-      background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.012) 3px,rgba(255,255,255,0.012) 4px);
-      pointer-events: none; z-index: 2;
-    }
-
-    /* ── EXTRA LINEUP BUTTON (Top Left) ── */
-    .lineup-btn {
+    /* INTRO SCREEN */
+    #intro {
       position: fixed;
-      top: 1.4rem;
-      left: 2rem;
-      z-index: 60;
-      background: rgba(240,236,224,0.08);
-      border: 1px solid rgba(240,236,224,0.4);
-      color: #f0ece0;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      padding: 0.8em 1.7em;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .lineup-btn:hover {
-      background: rgba(240,236,224,0.18);
-      border-color: #f0ece0;
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(255,255,255,0.2);
-    }
-
-    /* ── LINEUP POPUP MODAL ── */
-    .lineup-modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.92);
-      backdrop-filter: blur(10px);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .lineup-modal-overlay.open {
-      display: flex;
-    }
-
-    .lineup-modal {
-      position: relative;
-      max-width: 95%;
-      max-height: 94vh;
-      padding: 20px;
-      background: #0a0a0a;
-      border: 1px solid rgba(240,236,224,0.2);
-    }
-
-    .lineup-modal img {
-      max-width: 100%;
-      max-height: 90vh;
-      display: block;
-      box-shadow: 0 0 60px rgba(0,0,0,0.85);
-    }
-
-    .lineup-close {
-      position: absolute;
-      top: -15px;
-      right: -15px;
+      inset: 0;
+      z-index: 100;
       background: #000;
-      color: #f0ece0;
-      border: 1px solid rgba(240,236,224,0.5);
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: all 0.2s;
+      flex-direction: column;
+      transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
     }
 
-    .lineup-close:hover {
-      background: #f0ece0;
-      color: #000;
-      transform: scale(1.1);
+    .intro-content {
+      text-align: center;
+      animation: introFade 2s ease forwards;
     }
 
-    /* ── DROPDOWN NAV ── */
-    .nav {
-      position: fixed;
-      top: 1.4rem; right: 2rem;
-      z-index: 50;
+    @keyframes introFade {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .nav-toggle {
-      background: none;
-      border: 1px solid rgba(240,236,224,0.25);
+
+    .drag-handle {
+      margin-top: 4rem;
+      padding: 1rem 2.5rem;
+      border: 2px dashed rgba(240,236,224,0.5);
+      border-radius: 50px;
       color: #f0ece0;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
+      font-size: 0.75rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      padding: 0.6em 1.2em;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.6em;
-      transition: border-color 0.2s, background 0.2s;
+      cursor: grab;
       user-select: none;
-    }
-    .nav-toggle:hover { border-color: #f0ece0; background: rgba(240,236,224,0.05); }
-    .nav-arrow {
-      display: inline-block;
-      transition: transform 0.2s;
-      font-style: normal;
-      font-size: 0.5rem;
-    }
-    .nav.open .nav-arrow { transform: rotate(180deg); }
-    .dropdown {
-      position: absolute;
-      top: calc(100% + 0.5rem);
-      right: 0;
-      background: #0d0d0d;
-      border: 1px solid rgba(240,236,224,0.1);
-      min-width: 160px;
-      overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      transition: max-height 0.25s ease, opacity 0.2s ease;
-    }
-    .nav.open .dropdown {
-      max-height: 200px;
-      opacity: 1;
-    }
-    .dropdown a, .dropdown button {
-      display: block;
-      width: 100%;
-      padding: 0.9em 1.4em;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(240,236,224,0.6);
-      text-decoration: none;
-      background: none;
-      border: none;
-      text-align: left;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      border-bottom: 1px solid rgba(240,236,224,0.06);
-    }
-    .dropdown a:last-child, .dropdown button:last-child { border-bottom: none; }
-    .dropdown a:hover, .dropdown button:hover {
-      background: rgba(240,236,224,0.05);
-      color: #f0ece0;
+      transition: all 0.3s;
+      background: rgba(255,255,255,0.03);
     }
 
-    /* ── CONTACT MODAL ── */
-    .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(8px);
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-    .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal {
-      background: #0d0d0d;
-      border: 1px solid rgba(240,236,224,0.12);
-      padding: 3rem 2.5rem;
-      max-width: 420px;
-      width: 90%;
-      text-align: center;
+    .drag-handle:active { cursor: grabbing; background: rgba(255,255,255,0.1); }
+
+    /* MAIN CONTENT (hidden behind intro) */
+    .main-content {
       position: relative;
-      transform: translateY(20px);
-      transition: transform 0.25s ease;
-    }
-    .modal-overlay.open .modal { transform: translateY(0); }
-    .modal-close {
-      position: absolute; top: 1rem; right: 1.2rem;
-      background: none; border: none;
-      color: rgba(240,236,224,0.35);
-      font-size: 1.1rem; cursor: pointer;
-      transition: color 0.2s;
-    }
-    .modal-close:hover { color: #f0ece0; }
-    .modal-label {
-      font-size: 0.55rem; letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: rgba(240,236,224,0.35);
-      margin-bottom: 1rem;
-    }
-    .modal-title {
-      font-family: 'Bebas Neue', cursive;
-      font-size: 2.2rem; letter-spacing: 0.08em;
-      margin-bottom: 1.2rem;
-    }
-    .modal-text {
-      font-size: 0.65rem; line-height: 1.8;
-      opacity: 0.45; margin-bottom: 1.8rem;
-    }
-    .modal-email {
-      display: inline-block;
-      padding: 0.9em 2em;
-      background: #f0ece0; color: #000;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem; font-weight: 700;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      text-decoration: none;
-      border: 2px solid #f0ece0;
-      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-    }
-    .modal-email:hover {
-      background: transparent; color: #f0ece0;
-      box-shadow: 0 0 30px rgba(255,255,255,0.15);
+      z-index: 10;
+      height: 100vh;
+      opacity: 0;
+      transition: opacity 0.6s ease;
     }
 
-    /* ── FLOATERS ── */
+    .main-content.visible { opacity: 1; }
+
+    /* Your existing styles */
+    .lineup-btn, .nav { position: fixed; top: 1.4rem; z-index: 60; }
+    .lineup-btn { left: 2rem; }
+    .nav { right: 2rem; }
+
+    /* Rest of your styles (floater, wrap, modal, etc.) */
     .floater { position:fixed;pointer-events:none;z-index:3;will-change:transform;transition:transform 0.1s ease-out; }
-    .f-tl { top:-40px;left:-40px;width:clamp(180px,28vw,340px);opacity:0.3;animation:floatA 10s ease-in-out infinite; }
-    .f-br { bottom:-40px;right:-40px;width:clamp(160px,24vw,300px);opacity:0.25;animation:floatB 12s ease-in-out infinite;transform:rotate(180deg); }
-    .f-tr { top:0;right:-30px;width:clamp(130px,18vw,220px);opacity:0.2;animation:floatC 14s ease-in-out infinite;transform:rotate(90deg); }
-    .f-bl { bottom:0;left:-20px;width:clamp(130px,18vw,220px);opacity:0.18;animation:floatA 16s ease-in-out infinite reverse;transform:rotate(-90deg); }
-    .f-lpv { top:1.2rem;left:50%;transform:translateX(-50%);width:clamp(90px,12vw,150px);opacity:0.55;animation:floatB 9s ease-in-out infinite; }
-
-    @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px) rotate(2deg)} }
-    @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(12px) rotate(-1.5deg)} }
-    @keyframes floatC { 0%,100%{transform:rotate(90deg) translateY(0)} 50%{transform:rotate(90deg) translateY(-14px)} }
-
-    /* ── MAIN ── */
-    .wrap {
-      position: relative; z-index: 10;
-      display: flex; flex-direction: column;
-      align-items: center; text-align: center;
-      padding: clamp(5rem,12vh,9rem) 2rem clamp(3rem,6vh,5rem);
-    }
-    .main-logo {
-      width: min(260px,28vw);
-      margin-bottom: clamp(1.5rem,4vh,2.5rem);
-      filter: drop-shadow(0 0 50px rgba(255,255,255,0.12));
-      animation: logoIn 0.9s ease both;
-    }
-    @keyframes logoIn { from{opacity:0;transform:scale(0.93) translateY(18px)} to{opacity:1;transform:scale(1) translateY(0)} }
-    .date-line { font-family:'Bebas Neue',cursive;font-size:clamp(1.8rem,5.5vw,3.2rem);letter-spacing:0.14em;animation:up 0.8s 0.2s ease both; }
-    .city-line { margin-top:0.3rem;font-size:clamp(0.55rem,1.5vw,0.7rem);letter-spacing:0.45em;text-transform:uppercase;opacity:0.38;animation:up 0.8s 0.3s ease both; }
-    .divider { width:50px;height:1px;background:rgba(240,236,224,0.18);margin:clamp(1.5rem,3vh,2.2rem) auto;animation:up 0.8s 0.35s ease both; }
-    .ticket-btn {
-      display: inline-block; padding: 1.1em 3em;
-      background: #f0ece0; color: #000;
-      font-family: 'Space Mono', monospace;
-      font-size: clamp(0.7rem,2vw,0.9rem); font-weight: 700;
-      letter-spacing: 0.22em; text-transform: uppercase;
-      text-decoration: none; border: 2px solid #f0ece0;
-      transition: background 0.22s,color 0.22s,box-shadow 0.22s,transform 0.12s;
-      animation: up 0.9s 0.45s ease both;
-    }
-    .ticket-btn:hover { background:transparent;color:#f0ece0;box-shadow:0 0 50px rgba(255,255,255,0.22),0 0 100px rgba(255,255,255,0.07);transform:scale(1.04); }
-    .ticket-btn:active { transform:scale(0.97); }
-    .btn-sub { margin-top:0.85rem;font-size:0.52rem;letter-spacing:0.3em;text-transform:uppercase;opacity:0.22;animation:up 0.9s 0.55s ease both; }
-    @keyframes up { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    .wrap { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(5rem,12vh,9rem) 2rem clamp(3rem,6vh,5rem); height: 100vh; justify-content: center; }
   </style>
 </head>
 <body>
- 
-  <div class="bg">
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
-    <div id="stars"></div>
-  </div>
-  <div class="scan"></div>
 
-  <!-- EXTRA LINEUP BUTTON (top left) -->
-  <button class="lineup-btn" onclick="openLineupModal()">
-    LINE UP FOR CDMX
-  </button>
- 
-  <!-- DROPDOWN NAV -->
-  <nav class="nav" id="nav">
-    <button class="nav-toggle" onclick="toggleNav()">
-      Menu <i class="nav-arrow">▼</i>
+  <!-- INTRO SCREEN -->
+  <div id="intro">
+    <div class="intro-content">
+      <img src="LPV-lpv.png" alt="La Puta Vibra" style="width: clamp(180px, 35vw, 280px); filter: drop-shadow(0 0 40px rgba(255,255,255,0.3));">
+      <div style="margin-top: 3rem; font-family: 'Bebas Neue', cursive; font-size: clamp(2.2rem, 7vw, 3.8rem); letter-spacing: 0.1em; opacity: 0.9;">
+        LA PUTA VIBRA
+      </div>
+      <div style="margin-top: 0.5rem; font-size: 0.85rem; letter-spacing: 0.4em; opacity: 0.5;">CDMX • 27 JUN 2026</div>
+
+      <div class="drag-handle" id="dragHandle">
+        ↓ DRAG DOWN TO ENTER ↓
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content" id="mainContent">
+
+    <div class="bg">
+      <div class="orb orb1"></div>
+      <div class="orb orb2"></div>
+      <div class="orb orb3"></div>
+      <div id="stars"></div>
+    </div>
+    <div class="scan"></div>
+
+    <!-- LINEUP BUTTON -->
+    <button class="lineup-btn" onclick="openLineupModal()">
+      LINE UP
     </button>
-    <div class="dropdown">
-      <a href="https://www.instagram.com/laputavibra.tour" target="_blank" rel="noopener">Instagram</a>
-      <button onclick="openModal()">Contact</button>
+
+    <!-- NAV -->
+    <nav class="nav" id="nav">
+      <button class="nav-toggle" onclick="toggleNav()">
+        Menu <i class="nav-arrow">▼</i>
+      </button>
+      <div class="dropdown">
+        <a href="https://www.instagram.com/laputavibra.tour" target="_blank">Instagram</a>
+        <button onclick="openModal()">Contact</button>
+      </div>
+    </nav>
+
+    <!-- LINEUP MODAL -->
+    <div class="lineup-modal-overlay" id="lineupModal">
+      <div class="lineup-modal">
+        <button class="lineup-close" onclick="closeLineupModal()">✕</button>
+        <img src="IMG_5433 (1).png" alt="Lineup">
+      </div>
     </div>
-  </nav>
- 
-  <!-- LINEUP POPUP -->
-  <div class="lineup-modal-overlay" id="lineupModal">
-    <div class="lineup-modal">
-      <button class="lineup-close" onclick="closeLineupModal()">✕</button>
-      <img src="IMG_7281.png" alt="La Puta Vibra Tour Lineup">
+
+    <!-- CONTACT MODAL -->
+    <div class="modal-overlay" id="modal" onclick="closeOnOverlay(event)">
+      <div class="modal">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <div class="modal-label">// Bookings & Inquiries</div>
+        <div class="modal-title">Contacto</div>
+        <p class="modal-text">Para reservaciones, bookings y colaboraciones, escríbenos al correo:</p>
+        <a href="mailto:djlamoon@gmail.com" class="modal-email"> djlamoon@gmail.com</a>
+      </div>
+    </div>
+
+    <!-- FLOATERS -->
+    <img class="floater f-tl" src="sticker2-lpv.png" alt="">
+    <img class="floater f-br" src="sticker2-lpv.png" alt="">
+    <img class="floater f-tr" src="sticker2-lpv.png" alt="">
+    <img class="floater f-bl" src="sticker2-lpv.png" alt="">
+    <img class="floater f-lpv" src="LPV-lpv.png" alt="LPV">
+
+    <!-- MAIN PAGE -->
+    <div class="wrap">
+      <img class="main-logo" src="flyerlogonewstar.png" alt="La Puta Vibra Tour">
+      <div class="date-line">27 de Junio 2026</div>
+      <div class="city-line">Ciudad de México</div>
+      <div class="divider"></div>
+      <a href="https://www.passline.com/eventos/la-pta-vibra-tour-cdmx" target="_blank" class="ticket-btn">🎟 Compra tus boletos aquí</a>
+      <div class="btn-sub">passline.com</div>
     </div>
   </div>
- 
-  <!-- CONTACT MODAL -->
-  <div class="modal-overlay" id="modal" onclick="closeOnOverlay(event)">
-    <div class="modal">
-      <button class="modal-close" onclick="closeModal()">✕</button>
-      <div class="modal-label">// Bookings & Inquiries</div>
-      <div class="modal-title">Contacto</div>
-      <p class="modal-text">Para reservaciones, bookings y colaboraciones, escríbenos al correo:</p>
-      <a href="mailto:djlamoon@gmail.com" class="modal-email"> djlamoon@gmail.com</a>
-    </div>
-  </div>
- 
-  <!-- FLOATERS -->
-  <img class="floater f-tl" src="sticker2-lpv.png" alt="">
-  <img class="floater f-br" src="sticker2-lpv.png" alt="">
-  <img class="floater f-tr" src="sticker2-lpv.png" alt="">
-  <img class="floater f-bl" src="sticker2-lpv.png" alt="">
-  <img class="floater f-lpv" src="LPV-lpv.png" alt="LPV">
- 
-  <!-- MAIN -->
-  <div class="wrap">
-    <img class="main-logo" src="flyerlogonewstar.png" alt="La Puta Vibra Tour">
-    <div class="date-line">27 de Junio 2026</div>
-    <div class="city-line">Ciudad de México</div>
-    <div class="divider"></div>
-    <a href="https://www.passline.com/eventos/la-pta-vibra-tour-cdmx" target="_blank" rel="noopener" class="ticket-btn"> Compra tus boletos aquí</a>
-    <div class="btn-sub">passline.com</div>
-  </div>
- 
+
   <script>
-    // stars
+    // Stars
     const c = document.getElementById('stars');
     for (let i = 0; i < 90; i++) {
       const s = document.createElement('div');
@@ -382,54 +187,69 @@
       s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${size}px;height:${size}px;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*6}s;`;
       c.appendChild(s);
     }
- 
-    // parallax
+
+    // Drag to enter
+    let startY = 0;
+    const intro = document.getElementById('intro');
+    const main = document.getElementById('mainContent');
+    const dragHandle = document.getElementById('dragHandle');
+
+    function handleDrag(e) {
+      const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+      const diff = clientY - startY;
+      if (diff > 80) {
+        intro.style.transform = `translateY(-100%)`;
+        setTimeout(() => {
+          intro.style.display = 'none';
+          main.classList.add('visible');
+        }, 600);
+      }
+    }
+
+    dragHandle.addEventListener('mousedown', e => { startY = e.clientY; });
+    dragHandle.addEventListener('touchstart', e => { startY = e.touches[0].clientY; });
+
+    document.addEventListener('mousemove', e => { if (startY) handleDrag(e); });
+    document.addEventListener('touchmove', e => { if (startY) handleDrag(e); });
+
+    document.addEventListener('mouseup', () => startY = 0);
+    document.addEventListener('touchend', () => startY = 0);
+
+    // Parallax on floaters
     document.addEventListener('mousemove', e => {
-      const mx = e.clientX / innerWidth  - 0.5;
+      const mx = e.clientX / innerWidth - 0.5;
       const my = e.clientY / innerHeight - 0.5;
-      [
-        { el: document.querySelector('.f-tl'),  d: 18, rot: 0   },
-        { el: document.querySelector('.f-br'),  d: 14, rot: 180 },
-        { el: document.querySelector('.f-tr'),  d: 20, rot: 90  },
-        { el: document.querySelector('.f-bl'),  d: 16, rot: -90 },
-        { el: document.querySelector('.f-lpv'), d: 8,  rot: 0   },
-      ].forEach(({ el, d, rot }) => {
-        el.style.transform = `rotate(${rot}deg) translate(${mx*d}px,${my*d}px)`;
+      document.querySelectorAll('.floater').forEach((el, i) => {
+        const d = 10 + i * 4;
+        el.style.transform = `translate(${mx*d}px,${my*d}px)`;
       });
     });
- 
-    // dropdown
+
+    // Your existing functions (toggleNav, modals, etc.)
     function toggleNav() { document.getElementById('nav').classList.toggle('open'); }
-    document.addEventListener('click', e => {
-      if (!document.getElementById('nav').contains(e.target)) {
-        document.getElementById('nav').classList.remove('open');
-      }
-    });
- 
-    // contact modal
-    function openModal()  {
-      document.getElementById('nav').classList.remove('open');
-      document.getElementById('modal').classList.add('open');
-    }
+    function openModal() { document.getElementById('modal').classList.add('open'); }
     function closeModal() { document.getElementById('modal').classList.remove('open'); }
-    function closeOnOverlay(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+    function closeOnOverlay(e) { if (e.target.id === 'modal') closeModal(); }
+    function openLineupModal() { document.getElementById('lineupModal').classList.add('open'); }
+    function closeLineupModal() { document.getElementById('lineupModal').classList.remove('open'); }
 
-    // LINEUP modal
-    function openLineupModal() {
-      document.getElementById('nav').classList.remove('open');
-      document.getElementById('lineupModal').classList.add('open');
-    }
-    function closeLineupModal() {
-      document.getElementById('lineupModal').classList.remove('open');
-    }
-
-    // close with escape
-    document.addEventListener('keydown', e => { 
+    document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
         closeModal();
         closeLineupModal();
       }
     });
+
+    // Auto hide intro after some time (optional fallback)
+    setTimeout(() => {
+      if (intro.style.display !== 'none') {
+        intro.style.transform = `translateY(-100%)`;
+        setTimeout(() => {
+          intro.style.display = 'none';
+          main.classList.add('visible');
+        }, 700);
+      }
+    }, 12000);
   </script>
 </body>
 </html>
